@@ -15,9 +15,22 @@ import {
   XCircle,
   Trophy
 } from 'lucide-react';
+import emeraldTabletImage from './assets/home/emerald-tablet.png';
+import curatorsMidnightTourImage from './assets/home/curators-midnight-tour-user.webp';
+import symposiumOnLostTechImage from './assets/home/symposium-on-lost-tech-user.jpeg';
+import antikytheraMechanismImage from './assets/collections-user/antikythera-mechanism-user.png';
+import baghdadBatteryImage from './assets/collections-user/baghdad-battery-user.png';
+import heronsSteamEngineImage from './assets/collections/herons-steam-engine-user.png';
+import leonardosAutomatonImage from './assets/collections/leonardos-automaton-user.jpg';
+import ancientSeismoscopeImage from './assets/collections/ancient-seismoscope-user.jpg';
+import romanConcreteImage from './assets/collections/roman-concrete.png';
+import damascusSteelImage from './assets/collections/damascus-steel-user.jpg';
+import vikingSunstoneImage from './assets/collections/viking-sunstone-user.jpg';
+import archimedesScrewImage from './assets/collections/archimedes-screw.png';
+import pharosLighthouseImage from './assets/collections/pharos-lighthouse.png';
 
 // --- Types ---
-type Page = 'HOME' | 'VISIT' | 'EXHIBITIONS' | 'COLLECTIONS' | 'EVENTS' | 'LEARN' | 'SUPPORT' | 'ABOUT';
+type Page = 'HOME' | 'VISIT' | 'EXHIBITIONS' | 'COLLECTIONS' | 'EVENTS' | 'LEARN' | 'SUPPORT' | 'ABOUT' | 'TICKETS';
 
 interface QuizQuestion {
   question: string;
@@ -36,13 +49,21 @@ interface CollectionItem {
   slide4Quiz: QuizQuestion[];
 }
 
+interface ShowcaseItem {
+  title: string;
+  desc: string;
+  image: string;
+  eyebrow: string;
+  details: string;
+}
+
 // --- Data ---
 const COLLECTIONS_DATA: CollectionItem[] = [
   {
     id: 'antikythera',
     name: 'Antikythera Mechanism',
     shortDesc: 'The world\'s first analog computer, dating back to 100 BCE.',
-    image: 'https://images.unsplash.com/photo-1544216717-3b95246c2dfb?auto=format&fit=crop&q=80',
+    image: antikytheraMechanismImage,
     slide1Info: "The Antikythera Mechanism was discovered in a shipwreck near Greece in 1901. It is a complex system of at least 30 bronze gears used to predict astronomical positions and eclipses. For decades, it remained a mystery as no technology of this complexity was seen again for another 1,500 years.",
     slide2Quiz: [
       {
@@ -94,7 +115,7 @@ const COLLECTIONS_DATA: CollectionItem[] = [
     id: 'baghdad-battery',
     name: 'Baghdad Battery',
     shortDesc: 'Ancient clay jars that may have produced electricity 2,000 years ago.',
-    image: 'https://images.unsplash.com/photo-1599707334706-ec010493c350?auto=format&fit=crop&q=80',
+    image: baghdadBatteryImage,
     slide1Info: "Found near Baghdad, these artifacts consist of a terracotta jar, a copper cylinder, and an iron rod. Some believe they were primitive galvanic cells used for electroplating jewelry with gold or silver.",
     slide2Quiz: [
       {
@@ -146,7 +167,7 @@ const COLLECTIONS_DATA: CollectionItem[] = [
     id: 'herons-engine',
     name: "Heron's Steam Engine",
     shortDesc: "A first-century steam-powered device that preceded the Industrial Revolution.",
-    image: "https://images.unsplash.com/photo-1577702312781-80517855b46e?auto=format&fit=crop&q=80",
+    image: heronsSteamEngineImage,
     slide1Info: "Created by Heron of Alexandria in 1st century CE, the Aeolipile was the first recorded steam engine. It consisted of a hollow sphere that rotated when steam escaped through its nozzle.",
     slide2Quiz: [
       {
@@ -198,7 +219,7 @@ const COLLECTIONS_DATA: CollectionItem[] = [
     id: 'leonardos-automaton',
     name: "Leonardo's Automaton",
     shortDesc: "A mechanical knight designed by Da Vinci around 1495.",
-    image: "https://images.unsplash.com/photo-1533134486753-c833f0edde94?auto=format&fit=crop&q=80",
+    image: leonardosAutomatonImage,
     slide1Info: "Leonardo da Vinci designed a humanoid mechanical knight around 1495. It was capable of several human-like motions, including sitting up, moving its arms, and opening its visor.",
     slide2Quiz: [
       {
@@ -250,7 +271,7 @@ const COLLECTIONS_DATA: CollectionItem[] = [
     id: 'ancient-seismoscope',
     name: "Ancient Seismoscope",
     shortDesc: "Zhang Heng's 132 CE device that detected earthquakes from afar.",
-    image: "https://images.unsplash.com/photo-1614728263952-8492fa68b97e?auto=format&fit=crop&q=80",
+    image: ancientSeismoscopeImage,
     slide1Info: "Invented by Zhang Heng in 132 CE, this bronze vessel could detect earthquakes hundreds of miles away. It featured eight dragons, each holding a bronze ball above a bronze frog.",
     slide2Quiz: [
       {
@@ -302,7 +323,7 @@ const COLLECTIONS_DATA: CollectionItem[] = [
     id: 'roman-concrete',
     name: "Roman Concrete",
     shortDesc: "A 2,000-year-old building material that grows stronger in seawater.",
-    image: "https://images.unsplash.com/photo-1515542641795-38ed2e8a555c?auto=format&fit=crop&q=80",
+    image: romanConcreteImage,
     slide1Info: "Roman concrete (Opus caementicium) is famous for its incredible durability. Unlike modern concrete, it has lasted for two millennia, with some structures even growing stronger when exposed to seawater.",
     slide2Quiz: [
       {
@@ -354,7 +375,7 @@ const COLLECTIONS_DATA: CollectionItem[] = [
     id: 'damascus-steel',
     name: "Damascus Steel",
     shortDesc: "Lost forging techniques used to create razor-sharp, patterned blades.",
-    image: "https://images.unsplash.com/photo-1595180000000-db43662d5564?auto=format&fit=crop&q=80",
+    image: damascusSteelImage,
     slide1Info: "Legendary for its strength, sharpness, and flowing water patterns, Damascus steel was the choice of warriors from the Crusades. The exact method of making it was lost in the 18th century.",
     slide2Quiz: [
       {
@@ -406,7 +427,7 @@ const COLLECTIONS_DATA: CollectionItem[] = [
     id: 'viking-sunstone',
     name: "Viking Sunstone",
     shortDesc: "A crystal used by Vikings to navigate the seas even on cloudy days.",
-    image: "https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&q=80",
+    image: vikingSunstoneImage,
     slide1Info: "Vikings were legendary navigators. Norse sagas mention 'sunstones' that allowed them to find the sun's position even in thick fog or after sunset.",
     slide2Quiz: [
       {
@@ -458,7 +479,7 @@ const COLLECTIONS_DATA: CollectionItem[] = [
     id: 'archimedes-screw',
     name: "Archimedes' Screw",
     shortDesc: "A revolutionary device for transporting water upwards against gravity.",
-    image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80",
+    image: archimedesScrewImage,
     slide1Info: "Designed by Archimedes in 3rd century BCE, this device used a screw inside a hollow pipe to lift water for irrigation. It is still used today in modern systems.",
     slide2Quiz: [
       {
@@ -510,7 +531,7 @@ const COLLECTIONS_DATA: CollectionItem[] = [
     id: 'pharos-lighthouse',
     name: "Pharos Lighthouse",
     shortDesc: "One of the Seven Wonders, a beacon of ancient engineering.",
-    image: "https://images.unsplash.com/photo-1541339902099-13d442b1123d?auto=format&fit=crop&q=80",
+    image: pharosLighthouseImage,
     slide1Info: "Standing at over 100 meters, the Lighthouse of Alexandria was the first of its kind. It used a massive mirror to project light over 50 kilometers out to sea.",
     slide2Quiz: [
       {
@@ -560,6 +581,61 @@ const COLLECTIONS_DATA: CollectionItem[] = [
   }
 ];
 
+const EXHIBITIONS_DATA: ShowcaseItem[] = [
+  {
+    title: "The Emerald Tablet",
+    desc: "Deciphering the foundational text of alchemy.",
+    image: emeraldTabletImage,
+    eyebrow: "Vault Gallery I",
+    details: "An immersive study of hermetic doctrine, translation history, and symbolic alchemical diagrams centered on one of the most influential texts in esoteric scholarship."
+  },
+  {
+    title: "Voynich Mysteries",
+    desc: "A linguistic deep-dive into the world's least understood book.",
+    image: "https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=2670&auto=format&fit=crop",
+    eyebrow: "Vault Gallery II",
+    details: "Explore competing theories around the Voynich manuscript through botanical folios, cipher analysis, and layered interpretations from historians, linguists, and codebreakers."
+  },
+  {
+    title: "Astral Cartographies",
+    desc: "Mapping how early civilizations navigated the heavens.",
+    image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2670&auto=format&fit=crop",
+    eyebrow: "Vault Gallery III",
+    details: "This gallery follows celestial charts, instrument replicas, and star-led navigation systems that connected ritual, mathematics, and survival across ancient societies."
+  },
+  {
+    title: "Engines Before Industry",
+    desc: "Mechanical breakthroughs that arrived centuries too early.",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2670&auto=format&fit=crop",
+    eyebrow: "Vault Gallery IV",
+    details: "From rotary steam curiosities to automated temple devices, these displays reveal how pre-industrial inventors imagined motion, labor, and engineering long before factories."
+  },
+  {
+    title: "Oracles of Ink",
+    desc: "Sacred scripts, hidden notation, and forbidden annotation systems.",
+    image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=2670&auto=format&fit=crop",
+    eyebrow: "Vault Gallery V",
+    details: "A manuscript-focused exhibition on marginalia, ritual copying traditions, and the coded visual grammar used to preserve knowledge under secrecy and censorship."
+  }
+];
+
+const EVENTS_DATA: ShowcaseItem[] = [
+  {
+    title: "Curator's Midnight Tour",
+    desc: "Experience the halls under the light of forgotten flares.",
+    image: curatorsMidnightTourImage,
+    eyebrow: "After Hours",
+    details: "A guided night walk through the museum's quietest corridors, with commentary on concealed objects, restricted displays, and the architecture of secrecy."
+  },
+  {
+    title: "Symposium on Lost Tech",
+    desc: "A gathering of alternative historians and engineers.",
+    image: symposiumOnLostTechImage,
+    eyebrow: "Scholarly Forum",
+    details: "Researchers, conservators, and speculative technologists convene to compare evidence, reconstructions, and unresolved questions surrounding early machines."
+  }
+];
+
 // --- Components ---
 
 const Logo = () => (
@@ -598,7 +674,7 @@ const Navbar = ({ activePage, setActivePage, isArchiveOpen }: { activePage: Page
           </div>
         </div>
         <div className="flex items-center gap-6">
-          <button className="flex items-center gap-2 hover:text-primary transition-colors">
+          <button className="flex items-center gap-2 hover:text-primary transition-colors" onClick={() => setActivePage('TICKETS')}>
             <Ticket size={12} className="text-primary" />
             <span>TICKETS</span>
           </button>
@@ -625,7 +701,7 @@ const Navbar = ({ activePage, setActivePage, isArchiveOpen }: { activePage: Page
           </div>
 
           <div className={`flex items-center gap-8 transition-opacity ${isArchiveOpen ? 'opacity-20 pointer-events-none' : ''}`}>
-            {(['HOME', 'VISIT', 'EXHIBITIONS', 'COLLECTIONS', 'ABOUT'] as Page[]).map(p => (
+            {(['HOME', 'VISIT', 'EXHIBITIONS', 'EVENTS', 'COLLECTIONS', 'ABOUT'] as Page[]).map(p => (
               <button
                 key={p}
                 onClick={() => setActivePage(p)}
@@ -885,7 +961,7 @@ const PageHeader = ({ title, subtitle }: { title: string, subtitle?: string }) =
 
 // --- Pages ---
 
-const Home = () => (
+const Home = ({ setActivePage }: { setActivePage: (p: Page) => void }) => (
   <div className="space-y-32">
     <section className="relative h-[480px] rounded-[var(--radius-card)] overflow-hidden group border border-outline-variant/20 shadow-lg">
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1566127444979-b3d2b654e3d7?q=80&w=2670&auto=format&fit=crop')] bg-cover bg-center transition-transform duration-[3s] group-hover:scale-105" />
@@ -926,19 +1002,8 @@ const Home = () => (
           <div className="w-2 h-2 rounded-full bg-primary" /> Current Exhibitions
         </h3>
         <div className="space-y-10">
-          {[
-            { 
-              title: "The Emerald Tablet", 
-              desc: "Deciphering the foundational text of alchemy.",
-              image: "https://images.unsplash.com/photo-1615196677587-ecb0a8b68352?q=80&w=2670&auto=format&fit=crop"
-            },
-            { 
-              title: "Voynich Mysteries", 
-              desc: "A linguistic deep-dive into the world's least understood book.",
-              image: "https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=2670&auto=format&fit=crop"
-            }
-          ].map((ex, i) => (
-            <div key={i} className="group cursor-pointer">
+          {EXHIBITIONS_DATA.slice(0, 2).map((ex, i) => (
+            <div key={i} className="group cursor-pointer" onClick={() => setActivePage('EXHIBITIONS')}>
               <div className="aspect-video rounded-[var(--radius-card)] overflow-hidden border border-outline-variant/30 mb-5 bg-surface-dim">
                  <div className="w-full h-full hover:scale-105 transition-transform duration-700 bg-cover bg-center" style={{ backgroundImage: `url('${ex.image}')` }} />
               </div>
@@ -954,19 +1019,8 @@ const Home = () => (
           <div className="w-2 h-2 rounded-full bg-primary" /> Scholarly Events
         </h3>
         <div className="space-y-10">
-          {[
-            { 
-              title: "Curator's Midnight Tour", 
-              desc: "Experience the halls under the light of forgotten flares.",
-              image: "https://images.unsplash.com/photo-1518998053574-53fd9761c5f3?q=80&w=2670&auto=format&fit=crop"
-            },
-            { 
-              title: "Symposium on Lost Tech", 
-              desc: "A gathering of alternative historians and engineers.",
-              image: "https://images.unsplash.com/photo-1581092921461-39b9d08a9b21?q=80&w=2670&auto=format&fit=crop"
-            }
-          ].map((ev, i) => (
-            <div key={i} className="group cursor-pointer">
+          {EVENTS_DATA.slice(0, 2).map((ev, i) => (
+            <div key={i} className="group cursor-pointer" onClick={() => setActivePage('EVENTS')}>
               <div className="aspect-video rounded-[var(--radius-card)] overflow-hidden border border-outline-variant/30 mb-5 bg-surface-dim">
                  <div className="w-full h-full hover:scale-105 transition-transform duration-700 bg-cover bg-center" style={{ backgroundImage: `url('${ev.image}')` }} />
               </div>
@@ -1265,33 +1319,112 @@ const Exhibitions = () => (
   <div className="space-y-12">
     <PageHeader title="EXHIBITIONS" subtitle="Current showcases of curated historical intrigue" />
     <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-      {[
-        { 
-          title: "The Alchemist's Lab", 
-          img: "https://images.unsplash.com/photo-1544216717-3b95246c2dfb?auto=format&fit=crop&q=80",
-          desc: "A comprehensive analysis of foundational hermetic texts. We showcase the earliest known Arabic translations alongside medieval European interpretations of the Emerald Tablet."
-        },
-        { 
-          title: "Pre-Industrial Genius", 
-          img: "https://images.unsplash.com/photo-1518998053574-53fd9761c5f3?q=80&w=2524&auto=format&fit=crop",
-          desc: "From Heron's primitive steam engine to the intricate clockwork of the 12th-century Baghdad automatons, witness the mechanical genius that predates the steam age."
-        }
-      ].map((ex, i) => (
+      {EXHIBITIONS_DATA.map((ex, i) => (
         <div key={i} className="group relative overflow-hidden rounded-[var(--radius-card)] border border-outline-variant/30 shadow-xl bg-white">
           <div className="aspect-[16/9] overflow-hidden">
-             <img src={ex.img} alt={ex.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[1.5s]" />
+             <img src={ex.image} alt={ex.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[1.5s]" />
           </div>
           <div className="p-12 space-y-6">
              <div className="flex items-center gap-4">
-                <span className="label-caps text-[10px] text-primary">Vault Gallery {i+1}</span>
+                <span className="label-caps text-[10px] text-primary">{ex.eyebrow}</span>
                 <div className="h-[1px] flex-1 bg-outline-variant/20" />
              </div>
              <h4 className="text-3xl font-serif text-secondary">{ex.title}</h4>
              <p className="text-neutral leading-relaxed text-sm">{ex.desc}</p>
+             <p className="text-secondary/80 leading-relaxed text-sm">{ex.details}</p>
              <button className="btn-outlined w-full group-hover:bg-primary group-hover:text-white transition-all">Secure Entry Passes</button>
           </div>
         </div>
       ))}
+    </div>
+  </div>
+);
+
+const Events = () => (
+  <div className="space-y-12">
+    <PageHeader title="EVENTS" subtitle="Current broadcasts from our scholarly network" />
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+      {EVENTS_DATA.map((event, i) => (
+        <div key={event.title} className="museum-module flex flex-col group border border-outline-variant/10 bg-white shadow-sm hover:shadow-xl transition-all duration-300">
+          <div className="aspect-[4/3] rounded-[var(--radius-button)] overflow-hidden mb-8 border border-outline-variant/30 relative">
+            <img src={event.image} alt={event.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+            <div className="absolute inset-0 bg-secondary/0 group-hover:bg-secondary/35 transition-colors" />
+          </div>
+          <div className="flex items-center gap-4 mb-4">
+            <span className="label-caps text-[10px] text-primary">Session {String(i + 1).padStart(2, '0')}</span>
+            <div className="h-[1px] flex-1 bg-outline-variant/20" />
+          </div>
+          <p className="label-caps text-[10px] text-primary/70 mb-3">{event.eyebrow}</p>
+          <h3 className="text-2xl font-serif text-secondary mb-3 group-hover:text-primary transition-colors">{event.title}</h3>
+          <p className="text-sm text-neutral leading-relaxed mb-5">{event.desc}</p>
+          <p className="text-sm text-secondary/80 leading-relaxed mb-8 flex-1">{event.details}</p>
+          <button className="btn-secondary w-full">Register for Session</button>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+const Tickets = () => (
+  <div className="space-y-14">
+    <PageHeader title="TICKETS" subtitle="Reserve your entry to the Legacy Vault" />
+    <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 items-start">
+      <section className="space-y-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            { name: "General", price: "FREE", desc: "Timed entry for the main galleries and rotating exhibitions." },
+            { name: "Student", price: "FREE", desc: "Reserved access for school visits, study groups, and young researchers." },
+            { name: "Private Tour", price: "REQUEST", desc: "A guided curator route through selected vault records and event spaces." }
+          ].map(ticket => (
+            <div key={ticket.name} className="museum-module bg-white border border-outline-variant/20 shadow-sm">
+              <div className="flex items-center justify-between mb-8">
+                <Ticket size={22} className="text-primary" />
+                <span className="label-caps text-[10px] text-primary">{ticket.price}</span>
+              </div>
+              <h3 className="text-2xl font-serif text-secondary mb-4">{ticket.name}</h3>
+              <p className="text-sm text-neutral leading-relaxed">{ticket.desc}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="bg-secondary text-white p-10 rounded-[var(--radius-card)] shadow-xl">
+          <p className="label-caps text-[10px] text-primary mb-4">Access Notice</p>
+          <h3 className="text-3xl font-serif mb-5">Admission is free, but reservations are required.</h3>
+          <p className="text-white/60 leading-relaxed text-sm">
+            The museum limits gallery capacity to protect fragile materials and keep each room quiet enough for focused viewing.
+          </p>
+        </div>
+      </section>
+
+      <section className="bg-white p-10 rounded-[var(--radius-card)] border border-outline-variant/30 shadow-xl">
+        <h3 className="text-3xl font-serif text-secondary mb-2">Ticket Request</h3>
+        <p className="text-xs label-caps text-neutral opacity-60 mb-8">Select an access path</p>
+        <div className="space-y-5">
+          <label className="block space-y-2">
+            <span className="label-caps text-[10px] text-neutral font-bold">Visit Type</span>
+            <select className="w-full bg-surface-dim/30 border border-outline-variant/30 rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-all font-sans text-sm">
+              <option>General Admission</option>
+              <option>Student Group</option>
+              <option>Private Tour</option>
+            </select>
+          </label>
+          <label className="block space-y-2">
+            <span className="label-caps text-[10px] text-neutral font-bold">Visitors</span>
+            <select className="w-full bg-surface-dim/30 border border-outline-variant/30 rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-all font-sans text-sm">
+              <option>1 Visitor</option>
+              <option>2 Visitors</option>
+              <option>3 Visitors</option>
+              <option>4 Visitors</option>
+              <option>5+ Visitors</option>
+            </select>
+          </label>
+          <label className="block space-y-2">
+            <span className="label-caps text-[10px] text-neutral font-bold">Preferred Date</span>
+            <input type="date" className="w-full bg-surface-dim/30 border border-outline-variant/30 rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-all font-sans text-sm" />
+          </label>
+          <button className="btn-primary w-full py-4 mt-4">CONTINUE RESERVATION</button>
+        </div>
+      </section>
     </div>
   </div>
 );
@@ -1324,7 +1457,7 @@ export default function App() {
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
           >
-            {activePage === 'HOME' && <Home />}
+            {activePage === 'HOME' && <Home setActivePage={setActivePage} />}
             {activePage === 'VISIT' && <Visit />}
             {activePage === 'EXHIBITIONS' && <Exhibitions />}
             {activePage === 'COLLECTIONS' && (
@@ -1339,7 +1472,7 @@ export default function App() {
                         onClick={() => setSelectedArchive(item)}
                      >
                         <div className="aspect-[4/3] rounded-[var(--radius-button)] overflow-hidden mb-8 border border-outline-variant/30 relative">
-                           <img src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                           <img src={item.image} alt={item.name} className="w-full h-full object-contain bg-white p-2 group-hover:scale-105 transition-transform duration-1000" />
                            <div className="absolute inset-0 bg-secondary/0 group-hover:bg-secondary/40 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
                               <span className="btn-primary text-xs uppercase tracking-widest shadow-2xl">Investigate Record</span>
                            </div>
@@ -1351,17 +1484,8 @@ export default function App() {
                 </div>
               </div>
             )}
-            {activePage === 'EVENTS' && (
-               <div className="space-y-12">
-                  <PageHeader title="EVENTS" subtitle="Current broadcasts from our scholarly network" />
-                  <div className="max-w-4xl mx-auto museum-module flex flex-col items-center py-20 text-center bg-white shadow-sm border border-outline-variant/20">
-                     <Clock size={48} className="text-primary mb-8" />
-                     <h3 className="text-4xl font-serif mb-4 text-secondary">No Active Broadcasts</h3>
-                     <p className="text-neutral max-w-sm mb-12">Our scholarly symposium schedule is currently under review by the curators. Check back under the next full moon for upcoming lectures.</p>
-                     <button className="btn-secondary">Notify Me of New Sessions</button>
-                  </div>
-               </div>
-            )}
+            {activePage === 'EVENTS' && <Events />}
+            {activePage === 'TICKETS' && <Tickets />}
             {activePage === 'LEARN' && <Learn />}
             {activePage === 'SUPPORT' && <Support />}
             {activePage === 'ABOUT' && <About />}
