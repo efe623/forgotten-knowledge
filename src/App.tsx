@@ -28,6 +28,8 @@ import damascusSteelImage from './assets/collections/damascus-steel-user.jpg';
 import vikingSunstoneImage from './assets/collections/viking-sunstone-user.jpg';
 import archimedesScrewImage from './assets/collections/archimedes-screw.png';
 import pharosLighthouseImage from './assets/collections/pharos-lighthouse.png';
+import inventorImage from './assets/about/inventor.png';
+import socratesImage from './assets/about/socrates.webp';
 
 // --- Types ---
 type Page = 'HOME' | 'VISIT' | 'EXHIBITIONS' | 'COLLECTIONS' | 'EVENTS' | 'LEARN' | 'SUPPORT' | 'ABOUT' | 'TICKETS';
@@ -1293,23 +1295,23 @@ const About = () => (
     <div className="space-y-12">
         <PageHeader title="ABOUT" subtitle="The provenance of our institution" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div className="grid grid-cols-2 gap-6 p-4">
+               <div className="aspect-[3/4] rounded-2xl overflow-hidden border border-outline-variant/30 shadow-inner">
+                  <img src={inventorImage} className="w-full h-full object-cover" alt="Forgotten Knowledge" />
+               </div>
+               <div className="aspect-[3/4] rounded-2xl overflow-hidden border border-outline-variant/30 shadow-lg translate-y-10">
+                  <img src={socratesImage} className="w-full h-full object-cover" alt="Socrates" />
+               </div>
+            </div>
             <div className="space-y-8">
-                <h3 className="text-4xl font-serif leading-tight text-secondary">Guardians of the Unseen Past</h3>
+                <h3 className="text-4xl font-serif leading-tight text-secondary">Forgotten Knowledge</h3>
                 <p className="text-lg text-neutral leading-relaxed">
-                   The Museum of Forgotten Knowledge was established in 1982 with a singular mission: to safeguard artifacts that fall through the cracks of linear history. We believe that what is 'lost' is rarely truly gone—it is merely waiting for the right researcher to observe it with modern precision.
+                   This is the museum of inventions people forgot about. We use some of these inventions in out daily life without knowing, so I, Efe Baylan, tought it would be a good idea to make this as the topic of my digital museum. I belive that believe that what is "lost" is rarely truly gone.
                 </p>
                 <div className="p-8 border-l-4 border-primary/60 bg-surface-dim italic font-serif text-xl tracking-tight text-secondary shadow-sm">
-                   "To ignore the past is to walk blindly into a repetitive future. We provide the eyes."
-                   <span className="block not-italic text-[10px] label-caps mt-5 opacity-40">— Curator Emeritus, Foundation Charter</span>
+                   "The past is never dead. It's not even past"
+                   <span className="block not-italic text-[10px] label-caps mt-5 opacity-40">— Socrates</span>
                 </div>
-            </div>
-            <div className="grid grid-cols-2 gap-6 p-4">
-               <div className="aspect-[3/4] rounded-2xl bg-white border border-outline-variant/30 shadow-inner flex items-center justify-center">
-                  <div className="w-20 h-1 bg-outline-variant/20 rounded-full" />
-               </div>
-               <div className="aspect-[3/4] rounded-2xl bg-primary/20 border border-primary/30 shadow-lg translate-y-10 flex items-center justify-center p-6 text-center">
-                  <span className="font-serif text-xs italic text-primary">Original Blueprint: Vault 01-A</span>
-               </div>
             </div>
         </div>
     </div>
