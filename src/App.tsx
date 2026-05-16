@@ -670,17 +670,18 @@ const Navbar = ({ activePage, setActivePage, isArchiveOpen }: { activePage: Page
   return (
     <nav className="w-full border-b border-outline-variant/30 bg-surface sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-8 flex items-center justify-between text-[10px] font-sans tracking-widest border-b border-outline-variant/20 text-neutral">
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-2">
+        <div className="flex items-center gap-6 overflow-hidden">
+          <div className="flex items-center gap-2 shrink-0">
             <Clock size={12} className="text-primary" />
-            <span>OPEN TODAY: 10:00 AM - 5:00 PM</span>
+            <span className="hidden xs:inline">OPEN TODAY: 10:00 AM - 5:00 PM</span>
+            <span className="xs:hidden">10:00 AM - 5:00 PM</span>
           </div>
           <div className="hidden md:flex items-center gap-2">
             <MapPin size={12} className="text-primary" />
             <span>LONDON, ENGLAND</span>
           </div>
         </div>
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-6 shrink-0">
           <button className="flex items-center gap-2 hover:text-primary transition-colors" onClick={() => setActivePage('TICKETS')}>
             <Ticket size={12} className="text-primary" />
             <span>TICKETS</span>
@@ -724,10 +725,11 @@ const Navbar = ({ activePage, setActivePage, isArchiveOpen }: { activePage: Page
           </div>
 
           {/* Mobile Menu Toggle */}
-          <div className="lg:hidden flex items-center">
+          <div className="lg:hidden flex items-center gap-2">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="text-secondary p-2 hover:bg-surface-dim rounded-full transition-colors"
+              aria-label="Toggle Menu"
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -744,7 +746,7 @@ const Navbar = ({ activePage, setActivePage, isArchiveOpen }: { activePage: Page
             exit={{ opacity: 0, height: 0 }}
             className="lg:hidden bg-white border-t border-outline-variant/10 overflow-hidden"
           >
-            <div className="flex flex-col p-6 gap-4">
+            <div className="flex flex-col p-6 gap-2">
               {navItems.map(p => (
                 <button
                   key={p}
@@ -752,7 +754,7 @@ const Navbar = ({ activePage, setActivePage, isArchiveOpen }: { activePage: Page
                     setActivePage(p);
                     setIsMobileMenuOpen(false);
                   }}
-                  className={`label-caps text-left text-sm py-2 px-4 rounded-lg transition-colors ${activePage === p ? 'bg-primary/10 text-primary' : 'text-neutral hover:bg-surface-dim'}`}
+                  className={`label-caps text-left text-base py-3 px-4 rounded-lg transition-colors ${activePage === p ? 'bg-primary/10 text-primary font-bold' : 'text-neutral hover:bg-surface-dim'}`}
                 >
                   {p}
                 </button>
@@ -1009,7 +1011,7 @@ const PageHeader = ({ title, subtitle }: { title: string, subtitle?: string }) =
       <div className="w-12 md:w-16 h-1 bg-primary mx-auto rounded-full mt-6 md:mt-8" />
     </motion.div>
     <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none opacity-[0.03]">
-       <div className="text-[100px] md:text-[200px] font-serif uppercase select-none">{title}</div>
+       <div className="text-[100px] md:text-[200px] font-serif uppercase select-none whitespace-nowrap">{title}</div>
     </div>
   </div>
 );
@@ -1350,8 +1352,8 @@ const Learn = ({ setActivePage }: { setActivePage: (p: Page) => void }) => (
 const About = () => (
     <div className="space-y-12">
         <PageHeader title="ABOUT" subtitle="The provenance of our institution" />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
-            <div className="grid grid-cols-2 gap-4 md:gap-6 p-2 md:p-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-start">
+            <div className="grid grid-cols-2 gap-4 md:gap-6 p-2 md:p-4 md:sticky md:top-32">
                <div className="aspect-[3/4] rounded-xl md:rounded-2xl overflow-hidden border border-outline-variant/30 shadow-inner">
                   <img src={inventorImage} className="w-full h-full object-cover" alt="Forgotten Knowledge" />
                </div>
@@ -1359,7 +1361,7 @@ const About = () => (
                   <img src={socratesImage} className="w-full h-full object-cover" alt="Socrates" />
                </div>
             </div>
-            <div className="space-y-6 md:space-y-8 px-2 md:px-0">
+            <div className="space-y-6 md:space-y-8 px-2 md:px-0 mt-8 md:mt-0">
                 <h3 className="text-3xl md:text-4xl font-serif leading-tight text-secondary">Forgotten Knowledge</h3>
                 <p className="text-base md:text-lg text-neutral leading-relaxed">
                    This is the museum of inventions people forgot about. We use some of these inventions in out daily life without knowing, so I, Efe Baylan, tought it would be a good idea to make this as the topic of my digital museum. I belive that believe that what is "lost" is rarely truly gone.
