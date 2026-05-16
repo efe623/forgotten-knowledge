@@ -13,7 +13,9 @@ import {
   ArrowLeft,
   CheckCircle2,
   XCircle,
-  Trophy
+  Trophy,
+  Menu,
+  X
 } from 'lucide-react';
 import emeraldTabletImage from './assets/home/emerald-tablet.png';
 import curatorsMidnightTourImage from './assets/home/curators-midnight-tour-user.webp';
@@ -662,6 +664,9 @@ const Logo = () => (
 );
 
 const Navbar = ({ activePage, setActivePage, isArchiveOpen }: { activePage: Page, setActivePage: (p: Page) => void, isArchiveOpen: boolean }) => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navItems: Page[] = ['HOME', 'VISIT', 'EXHIBITIONS', 'EVENTS', 'COLLECTIONS', 'LEARN', 'SUPPORT', 'ABOUT'];
+
   return (
     <nav className="w-full border-b border-outline-variant/30 bg-surface sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-8 flex items-center justify-between text-[10px] font-sans tracking-widest border-b border-outline-variant/20 text-neutral">
@@ -685,7 +690,7 @@ const Navbar = ({ activePage, setActivePage, isArchiveOpen }: { activePage: Page
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
         <div className="flex items-center justify-between">
-          <div className="cursor-pointer hover:scale-[1.02] transition-transform origin-left flex items-center gap-4" onClick={() => setActivePage('HOME')}>
+          <div className="cursor-pointer hover:scale-[1.02] transition-transform origin-left flex items-center gap-4" onClick={() => { setActivePage('HOME'); setIsMobileMenuOpen(false); }}>
             <div className="text-primary">
               <svg width="32" height="32" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M4 42V38H44V42H4Z" fill="currentColor"/>
@@ -697,13 +702,14 @@ const Navbar = ({ activePage, setActivePage, isArchiveOpen }: { activePage: Page
               </svg>
             </div>
             <div className="flex flex-col">
-              <h1 className="text-lg font-serif tracking-[0.2em] text-secondary leading-none">FORGOTTEN</h1>
-              <h1 className="text-lg font-serif tracking-[0.2em] text-secondary mt-0.5 leading-none">KNOWLEDGE</h1>
+              <h1 className="text-lg font-serif tracking-[0.2em] text-secondary leading-none uppercase">Forgotten</h1>
+              <h1 className="text-lg font-serif tracking-[0.2em] text-secondary mt-0.5 leading-none uppercase">Knowledge</h1>
             </div>
           </div>
 
-          <div className={`flex items-center gap-8 transition-opacity ${isArchiveOpen ? 'opacity-20 pointer-events-none' : ''}`}>
-            {(['HOME', 'VISIT', 'EXHIBITIONS', 'EVENTS', 'COLLECTIONS', 'LEARN', 'SUPPORT', 'ABOUT'] as Page[]).map(p => (
+          {/* Desktop Nav */}
+          <div className={`hidden lg:flex items-center gap-8 transition-opacity ${isArchiveOpen ? 'opacity-20 pointer-events-none' : ''}`}>
+            {navItems.map(p => (
               <button
                 key={p}
                 onClick={() => setActivePage(p)}
@@ -716,8 +722,55 @@ const Navbar = ({ activePage, setActivePage, isArchiveOpen }: { activePage: Page
               </button>
             ))}
           </div>
+
+          {/* Mobile Menu Toggle */}
+          <div className="lg:hidden flex items-center">
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="text-secondary p-2 hover:bg-surface-dim rounded-full transition-colors"
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
       </div>
+
+      {/* Mobile Nav Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="lg:hidden bg-white border-t border-outline-variant/10 overflow-hidden"
+          >
+            <div className="flex flex-col p-6 gap-4">
+              {navItems.map(p => (
+                <button
+                  key={p}
+                  onClick={() => {
+                    setActivePage(p);
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className={`label-caps text-left text-sm py-2 px-4 rounded-lg transition-colors ${activePage === p ? 'bg-primary/10 text-primary' : 'text-neutral hover:bg-surface-dim'}`}
+                >
+                  {p}
+                </button>
+              ))}
+              <button
+                onClick={() => {
+                  setActivePage('TICKETS');
+                  setIsMobileMenuOpen(false);
+                }}
+                className="btn-primary w-full mt-4 py-3 flex items-center justify-center gap-2"
+              >
+                <Ticket size={16} />
+                TICKETS
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };
@@ -815,20 +868,20 @@ const CollectionArchive = ({ item, onClose }: { item: CollectionItem | null, onC
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-[100] bg-surface flex flex-col overflow-hidden"
     >
-      <div className="h-24 border-b border-outline-variant/30 flex items-center justify-between px-10 bg-white">
-        <div className="flex items-center gap-4">
-           <div className="scale-75"><Logo /></div>
-           <div className="h-8 w-[1px] bg-outline-variant mx-4" />
-           <h2 className="text-xl font-serif text-secondary">{item.name} Investigation</h2>
+      <div className="h-20 md:h-24 border-b border-outline-variant/30 flex items-center justify-between px-4 md:px-10 bg-white">
+        <div className="flex items-center gap-2 md:gap-4 overflow-hidden">
+           <div className="scale-50 md:scale-75 origin-left"><Logo /></div>
+           <div className="h-6 md:h-8 w-[1px] bg-outline-variant mx-2 md:mx-4 shrink-0" />
+           <h2 className="text-sm md:text-xl font-serif text-secondary truncate">{item.name} Investigation</h2>
         </div>
-        <button onClick={onClose} className="btn-inverted text-xs uppercase tracking-widest">Close Archive</button>
+        <button onClick={onClose} className="btn-inverted text-[10px] md:text-xs uppercase tracking-widest shrink-0">Close</button>
       </div>
 
       <div className="flex-1 overflow-y-auto bg-surface-dim/20">
-        <div className="max-w-6xl mx-auto px-6 py-16">
-          <div className="mb-12 flex justify-center gap-4">
+        <div className="max-w-6xl mx-auto px-4 md:px-6 py-8 md:py-16">
+          <div className="mb-8 md:mb-12 flex justify-center gap-2 md:gap-4">
              {[1, 2, 3, 4, 5].map(s => (
-               <div key={s} className={`h-1.5 w-16 rounded-full transition-all duration-300 ${slide >= s ? 'bg-primary' : 'bg-outline-variant/30'}`} />
+               <div key={s} className={`h-1 md:h-1.5 w-10 md:w-16 rounded-full transition-all duration-300 ${slide >= s ? 'bg-primary' : 'bg-outline-variant/30'}`} />
              ))}
           </div>
 
@@ -838,17 +891,17 @@ const CollectionArchive = ({ item, onClose }: { item: CollectionItem | null, onC
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
-              className="min-h-[500px]"
+              className="min-h-[400px] md:min-h-[500px]"
             >
               {slide === 1 && (
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-center">
                    <div className="rounded-[var(--radius-card)] overflow-hidden border border-outline-variant/50 shadow-xl">
-                      <img src={item.image} alt={item.name} className="w-full h-[500px] object-cover" />
+                      <img src={item.image} alt={item.name} className="w-full h-[300px] md:h-[500px] object-cover" />
                    </div>
-                   <div className="space-y-8">
-                      <h3 className="text-5xl font-serif leading-tight">Historical Observation</h3>
-                      <p className="text-xl text-neutral leading-relaxed font-sans">{item.slide1Info}</p>
-                      <button onClick={() => setSlide(2)} className="btn-primary px-12 group">
+                   <div className="space-y-6 md:space-y-8">
+                      <h3 className="text-3xl md:text-5xl font-serif leading-tight">Historical Observation</h3>
+                      <p className="text-lg md:text-xl text-neutral leading-relaxed font-sans">{item.slide1Info}</p>
+                      <button onClick={() => setSlide(2)} className="btn-primary w-full md:w-auto md:px-12 group">
                         Begin Phase I Quiz <ArrowRight size={18} className="inline ml-2 group-hover:translate-x-1 transition-transform" />
                       </button>
                    </div>
@@ -871,19 +924,19 @@ const CollectionArchive = ({ item, onClose }: { item: CollectionItem | null, onC
               )}
 
               {slide === 3 && (
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                   <div className="space-y-8 order-2 lg:order-1">
-                      <h3 className="text-5xl font-serif leading-tight">Advanced Findings</h3>
-                      <p className="text-xl text-neutral leading-relaxed font-sans">{item.slide3Info}</p>
-                      <div className="flex gap-4">
-                        <button onClick={() => setSlide(2)} className="btn-outlined">Previous Findings</button>
-                        <button onClick={() => setSlide(4)} className="btn-primary px-12 group">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-center">
+                   <div className="space-y-6 md:space-y-8 order-2 lg:order-1">
+                      <h3 className="text-3xl md:text-5xl font-serif leading-tight">Advanced Findings</h3>
+                      <p className="text-lg md:text-xl text-neutral leading-relaxed font-sans">{item.slide3Info}</p>
+                      <div className="flex flex-col sm:flex-row gap-4">
+                        <button onClick={() => setSlide(2)} className="btn-outlined w-full sm:w-auto">Previous Findings</button>
+                        <button onClick={() => setSlide(4)} className="btn-primary w-full sm:w-auto md:px-12 group">
                           Final Integration Assessment <ArrowRight size={18} className="inline ml-2 group-hover:translate-x-1 transition-transform" />
                         </button>
                       </div>
                    </div>
-                   <div className="rounded-[var(--radius-card)] overflow-hidden border border-outline-variant/50 shadow-xl order-1 lg:order-2 bg-white flex items-center justify-center p-12">
-                      <Search size={120} className="text-primary/10" />
+                   <div className="rounded-[var(--radius-card)] overflow-hidden border border-outline-variant/50 shadow-xl order-1 lg:order-2 bg-white flex items-center justify-center p-8 md:p-12">
+                      <Search size={80} className="md:size-[120px] text-primary/10" />
                    </div>
                 </div>
               )}
@@ -905,33 +958,33 @@ const CollectionArchive = ({ item, onClose }: { item: CollectionItem | null, onC
               )}
 
               {slide === 5 && (
-                <div className="max-w-2xl mx-auto text-center space-y-12 py-10">
+                <div className="max-w-2xl mx-auto text-center space-y-8 md:space-y-12 py-6 md:py-10">
                    <motion.div
                      initial={{ scale: 0.5, rotate: -20 }}
                      animate={{ scale: 1, rotate: 0 }}
-                     className="inline-block p-10 rounded-full bg-primary/10 text-primary shadow-inner"
+                     className="inline-block p-6 md:p-10 rounded-full bg-primary/10 text-primary shadow-inner"
                    >
-                     <Trophy size={80} />
+                     <Trophy size={60} className="md:size-[80px]" />
                    </motion.div>
                    <div className="space-y-4">
-                      <h3 className="text-6xl font-serif">Investigation Summary</h3>
-                      <div className="text-3xl font-sans tracking-widest text-primary font-bold">
+                      <h3 className="text-4xl md:text-6xl font-serif">Investigation Summary</h3>
+                      <div className="text-2xl md:text-3xl font-sans tracking-widest text-primary font-bold">
                         SCORE: {totalScore} / 8
                       </div>
                    </div>
                    
-                   <div className="bg-white p-10 rounded-[var(--radius-card)] border border-outline-variant/30 shadow-md">
-                     <p className="text-4xl font-serif mb-6 italic text-secondary">
+                   <div className="bg-white p-6 md:p-10 rounded-[var(--radius-card)] border border-outline-variant/30 shadow-md">
+                     <p className="text-2xl md:text-4xl font-serif mb-4 md:mb-6 italic text-secondary">
                         {totalScore >= 7 ? "YOU are a genius!" : "YOU failed!"}
                      </p>
-                     <p className="text-neutral leading-relaxed">
+                     <p className="text-sm md:text-neutral leading-relaxed">
                         {totalScore >= 7 
                           ? "Your grasp of forgotten knowledge is unparalleled. You represent the finest caliber of modern investigators." 
                           : "You have failed to integrate the historical wisdom presented. History demands more rigorous study and attention to detail."}
                      </p>
                    </div>
 
-                   <button onClick={onClose} className="btn-inverted px-16 py-4 text-sm font-bold tracking-[0.2em]">
+                   <button onClick={onClose} className="btn-inverted w-full md:w-auto md:px-16 py-4 text-sm font-bold tracking-[0.2em]">
                       RETURN TO CURATION GALLERY
                    </button>
                 </div>
@@ -945,18 +998,18 @@ const CollectionArchive = ({ item, onClose }: { item: CollectionItem | null, onC
 };
 
 const PageHeader = ({ title, subtitle }: { title: string, subtitle?: string }) => (
-  <div className="text-center mb-24 relative overflow-hidden py-16">
+  <div className="text-center mb-12 md:mb-24 relative overflow-hidden py-8 md:py-16">
     <motion.div 
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       className="relative z-10"
     >
-      <h2 className="text-7xl font-serif uppercase tracking-[0.15em] text-secondary mb-4 leading-none">{title}</h2>
-      {subtitle && <p className="text-neutral label-caps tracking-[0.3em] opacity-60">{subtitle}</p>}
-      <div className="w-16 h-1 bg-primary mx-auto rounded-full mt-8" />
+      <h2 className="text-4xl md:text-7xl font-serif uppercase tracking-[0.15em] text-secondary mb-4 leading-none">{title}</h2>
+      {subtitle && <p className="text-[10px] md:text-xs text-neutral label-caps tracking-[0.2em] md:tracking-[0.3em] opacity-60 px-4">{subtitle}</p>}
+      <div className="w-12 md:w-16 h-1 bg-primary mx-auto rounded-full mt-6 md:mt-8" />
     </motion.div>
     <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none opacity-[0.03]">
-       <div className="text-[200px] font-serif uppercase select-none">{title}</div>
+       <div className="text-[100px] md:text-[200px] font-serif uppercase select-none">{title}</div>
     </div>
   </div>
 );
@@ -964,17 +1017,17 @@ const PageHeader = ({ title, subtitle }: { title: string, subtitle?: string }) =
 // --- Pages ---
 
 const Home = ({ setActivePage }: { setActivePage: (p: Page) => void }) => (
-  <div className="space-y-32">
-    <section className="relative h-[480px] rounded-[var(--radius-card)] overflow-hidden group border border-outline-variant/20 shadow-lg">
+  <div className="space-y-16 md:space-y-32">
+    <section className="relative h-[400px] md:h-[480px] rounded-[var(--radius-card)] overflow-hidden group border border-outline-variant/20 shadow-lg mx-2 md:mx-0">
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1566127444979-b3d2b654e3d7?q=80&w=2670&auto=format&fit=crop')] bg-cover bg-center transition-transform duration-[3s] group-hover:scale-105" />
       <div className="absolute inset-0 bg-secondary/40" />
       <div className="absolute inset-0 bg-gradient-to-t from-secondary/90 via-secondary/20 to-transparent" />
       
-      <div className="relative h-full flex flex-col items-center justify-center text-center text-white p-12">
+      <div className="relative h-full flex flex-col items-center justify-center text-center text-white p-6 md:p-12">
         <motion.p 
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="label-caps text-xs mb-6 text-primary tracking-[0.6em]"
+          className="label-caps text-[10px] md:text-xs mb-4 md:mb-6 text-primary tracking-[0.4em] md:tracking-[0.6em]"
         >
           CURATED EXHIBITION • MMXXIV
         </motion.p>
@@ -982,7 +1035,7 @@ const Home = ({ setActivePage }: { setActivePage: (p: Page) => void }) => (
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-6xl md:text-7xl font-serif mb-10 max-w-4xl leading-tight"
+          className="text-4xl md:text-7xl font-serif mb-8 md:mb-10 max-w-4xl leading-tight"
         >
           The Unwritten Records <br /> <span className="italic font-normal opacity-90">of the Void</span>
         </motion.h2>
@@ -993,7 +1046,7 @@ const Home = ({ setActivePage }: { setActivePage: (p: Page) => void }) => (
         >
           <button
             onClick={() => setActivePage('TICKETS')}
-            className="btn-primary px-16 text-base shadow-2xl"
+            className="btn-primary w-full md:w-auto px-16 text-base shadow-2xl"
           >
             Reserve Access
           </button>
@@ -1001,7 +1054,7 @@ const Home = ({ setActivePage }: { setActivePage: (p: Page) => void }) => (
       </div>
     </section>
 
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16 px-2 md:px-0">
       <section className="col-span-1">
         <h3 className="text-2xl font-serif mb-10 text-secondary flex items-center gap-3">
           <div className="w-2 h-2 rounded-full bg-primary" /> Current Exhibitions
@@ -1068,24 +1121,24 @@ const Visit = () => {
   const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || "YOUR_ACCESS_KEY_HERE";
 
   return (
-    <div className="max-w-5xl mx-auto space-y-20 py-10">
+    <div className="max-w-5xl mx-auto space-y-12 md:space-y-20 py-10">
       <PageHeader title="VISIT" subtitle="Information for physical access to the Legacy Vaults" />
       
-      <section className="relative h-[480px] rounded-[var(--radius-card)] overflow-hidden border border-outline-variant/30 shadow-md group">
+      <section className="relative h-[300px] md:h-[480px] rounded-[var(--radius-card)] overflow-hidden border border-outline-variant/30 shadow-md group">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1554907984-15263bfd63bd?q=80&w=2670&auto=format&fit=crop')] bg-cover bg-center transition-transform duration-[4s] group-hover:scale-105" />
         <div className="absolute inset-0 bg-secondary/40" />
         <div className="absolute inset-0 bg-gradient-to-t from-secondary/90 via-secondary/20 to-transparent" />
-        <div className="relative h-full flex items-center justify-center text-white text-center p-12">
-          <div className="max-w-2xl bg-secondary/80 backdrop-blur-md p-10 rounded-[var(--radius-card)] shadow-2xl border border-white/10">
-            <h3 className="text-3xl font-serif mb-6 italic text-primary">The Gallery of Hours</h3>
-            <p className="text-sm opacity-90 leading-relaxed max-w-lg mx-auto">
+        <div className="relative h-full flex items-center justify-center text-white text-center p-6 md:p-12">
+          <div className="max-w-2xl bg-secondary/80 backdrop-blur-md p-6 md:p-10 rounded-[var(--radius-card)] shadow-2xl border border-white/10">
+            <h3 className="text-2xl md:text-3xl font-serif mb-4 md:mb-6 italic text-primary">The Gallery of Hours</h3>
+            <p className="text-xs md:text-sm opacity-90 leading-relaxed max-w-lg mx-auto">
               Experience the silent weight of centuries as you wander through our humidity-controlled vaults. Admission is strictly by timed reservation to ensure tranquility.
             </p>
           </div>
         </div>
       </section>
 
-      <div className="grid md:grid-cols-2 gap-16 items-start">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-start">
         <div className="space-y-12">
           <div className="space-y-6">
             <h3 className="font-serif text-3xl text-secondary flex items-center gap-3">
@@ -1188,7 +1241,7 @@ const Visit = () => {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="label-caps text-[10px] text-neutral font-bold">Visitors</label>
                 <select name="visitors" className="w-full bg-surface-dim/30 border border-outline-variant/30 rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-all font-sans text-sm focus:bg-white cursor-pointer">
@@ -1297,23 +1350,23 @@ const Learn = ({ setActivePage }: { setActivePage: (p: Page) => void }) => (
 const About = () => (
     <div className="space-y-12">
         <PageHeader title="ABOUT" subtitle="The provenance of our institution" />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-            <div className="grid grid-cols-2 gap-6 p-4">
-               <div className="aspect-[3/4] rounded-2xl overflow-hidden border border-outline-variant/30 shadow-inner">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
+            <div className="grid grid-cols-2 gap-4 md:gap-6 p-2 md:p-4">
+               <div className="aspect-[3/4] rounded-xl md:rounded-2xl overflow-hidden border border-outline-variant/30 shadow-inner">
                   <img src={inventorImage} className="w-full h-full object-cover" alt="Forgotten Knowledge" />
                </div>
-               <div className="aspect-[3/4] rounded-2xl overflow-hidden border border-outline-variant/30 shadow-lg translate-y-10">
+               <div className="aspect-[3/4] rounded-xl md:rounded-2xl overflow-hidden border border-outline-variant/30 shadow-lg translate-y-6 md:translate-y-10">
                   <img src={socratesImage} className="w-full h-full object-cover" alt="Socrates" />
                </div>
             </div>
-            <div className="space-y-8">
-                <h3 className="text-4xl font-serif leading-tight text-secondary">Forgotten Knowledge</h3>
-                <p className="text-lg text-neutral leading-relaxed">
+            <div className="space-y-6 md:space-y-8 px-2 md:px-0">
+                <h3 className="text-3xl md:text-4xl font-serif leading-tight text-secondary">Forgotten Knowledge</h3>
+                <p className="text-base md:text-lg text-neutral leading-relaxed">
                    This is the museum of inventions people forgot about. We use some of these inventions in out daily life without knowing, so I, Efe Baylan, tought it would be a good idea to make this as the topic of my digital museum. I belive that believe that what is "lost" is rarely truly gone.
                 </p>
-                <div className="p-8 border-l-4 border-primary/60 bg-surface-dim italic font-serif text-xl tracking-tight text-secondary shadow-sm">
+                <div className="p-6 md:p-8 border-l-4 border-primary/60 bg-surface-dim italic font-serif text-lg md:text-xl tracking-tight text-secondary shadow-sm">
                    "The past is never dead. It's not even past"
-                   <span className="block not-italic text-[10px] label-caps mt-5 opacity-40">— Socrates</span>
+                   <span className="block not-italic text-[10px] label-caps mt-4 md:mt-5 opacity-40">— Socrates</span>
                 </div>
             </div>
         </div>
@@ -1323,18 +1376,18 @@ const About = () => (
 const Exhibitions = ({ setActivePage }: { setActivePage: (p: Page) => void }) => (
   <div className="space-y-12">
     <PageHeader title="EXHIBITIONS" subtitle="Current showcases of curated historical intrigue" />
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 px-2 md:px-0">
       {EXHIBITIONS_DATA.map((ex, i) => (
         <div key={i} className="group relative overflow-hidden rounded-[var(--radius-card)] border border-outline-variant/30 shadow-xl bg-white">
           <div className="aspect-[16/9] overflow-hidden">
              <img src={ex.image} alt={ex.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[1.5s]" />
           </div>
-          <div className="p-12 space-y-6">
+          <div className="p-8 md:p-12 space-y-4 md:space-y-6">
              <div className="flex items-center gap-4">
                 <span className="label-caps text-[10px] text-primary">{ex.eyebrow}</span>
                 <div className="h-[1px] flex-1 bg-outline-variant/20" />
              </div>
-             <h4 className="text-3xl font-serif text-secondary">{ex.title}</h4>
+             <h4 className="text-2xl md:text-3xl font-serif text-secondary">{ex.title}</h4>
              <p className="text-neutral leading-relaxed text-sm">{ex.desc}</p>
              <p className="text-secondary/80 leading-relaxed text-sm">{ex.details}</p>
              <button onClick={() => setActivePage('TICKETS')} className="btn-outlined w-full group-hover:bg-primary group-hover:text-white transition-all">Secure Entry Passes</button>
@@ -1348,10 +1401,10 @@ const Exhibitions = ({ setActivePage }: { setActivePage: (p: Page) => void }) =>
 const Events = ({ setActivePage }: { setActivePage: (p: Page) => void }) => (
   <div className="space-y-12">
     <PageHeader title="EVENTS" subtitle="Current broadcasts from our scholarly network" />
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 max-w-5xl mx-auto px-2 md:px-0">
       {EVENTS_DATA.map((event, i) => (
         <div key={event.title} className="museum-module flex flex-col group border border-outline-variant/10 bg-white shadow-sm hover:shadow-xl transition-all duration-300">
-          <div className="aspect-[4/3] rounded-[var(--radius-button)] overflow-hidden mb-8 border border-outline-variant/30 relative">
+          <div className="aspect-[4/3] rounded-[var(--radius-button)] overflow-hidden mb-6 md:mb-8 border border-outline-variant/30 relative">
             <img src={event.image} alt={event.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
             <div className="absolute inset-0 bg-secondary/0 group-hover:bg-secondary/35 transition-colors" />
           </div>
@@ -1360,7 +1413,7 @@ const Events = ({ setActivePage }: { setActivePage: (p: Page) => void }) => (
             <div className="h-[1px] flex-1 bg-outline-variant/20" />
           </div>
           <p className="label-caps text-[10px] text-primary/70 mb-3">{event.eyebrow}</p>
-          <h3 className="text-2xl font-serif text-secondary mb-3 group-hover:text-primary transition-colors">{event.title}</h3>
+          <h3 className="text-xl md:text-2xl font-serif text-secondary mb-3 group-hover:text-primary transition-colors">{event.title}</h3>
           <p className="text-sm text-neutral leading-relaxed mb-5">{event.desc}</p>
           <p className="text-sm text-secondary/80 leading-relaxed mb-8 flex-1">{event.details}</p>
           <button onClick={() => setActivePage('TICKETS')} className="btn-secondary w-full">Register for Session</button>
@@ -1375,11 +1428,11 @@ const Tickets = () => {
   const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || "YOUR_ACCESS_KEY_HERE";
 
   return (
-  <div className="space-y-14">
+  <div className="space-y-12 md:space-y-14 px-2 md:px-0">
     <PageHeader title="TICKETS" subtitle="Reserve your entry to the Legacy Vault" />
-    <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 items-start">
+    <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-10 md:gap-12 items-start">
       <section className="space-y-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {[
             { name: "General", price: "FREE", desc: "Timed entry for the main galleries and rotating exhibitions." },
             { name: "Student", price: "FREE", desc: "Reserved access for school visits, study groups, and young researchers." },
@@ -1396,7 +1449,7 @@ const Tickets = () => {
           ))}
         </div>
 
-        <div className="bg-secondary text-white p-10 rounded-[var(--radius-card)] shadow-xl">
+        <div className="bg-secondary text-white p-6 md:p-10 rounded-[var(--radius-card)] shadow-xl">
           <p className="label-caps text-[10px] text-primary mb-4">Access Notice</p>
           <h3 className="text-3xl font-serif mb-5">Admission is free, but reservations are required.</h3>
           <p className="text-white/60 leading-relaxed text-sm">
@@ -1485,7 +1538,7 @@ export default function App() {
         isArchiveOpen={!!selectedArchive} 
       />
       
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16">
         <AnimatePresence mode="wait">
           <motion.div
             key={activePage}
@@ -1530,16 +1583,16 @@ export default function App() {
         </AnimatePresence>
       </main>
 
-      <footer className="w-full bg-secondary text-white mt-40 py-24">
+      <footer className="w-full bg-secondary text-white mt-20 md:mt-40 py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-start gap-16">
+          <div className="flex flex-col md:flex-row justify-between items-start gap-12 md:gap-16">
             <div className="max-w-sm">
                <h3 className="font-serif text-4xl mb-6 tracking-wide italic">The Legacy Vault</h3>
                <p className="text-white/40 leading-relaxed text-sm">
                  A global institution dedicated to the preservation of obscure history and the reclamation of lost systems from across the timeline.
                </p>
             </div>
-            <div className="grid grid-cols-2 gap-20">
+            <div className="grid grid-cols-2 gap-10 md:gap-20">
                <div className="space-y-6">
                   <span className="label-caps text-[9px] text-primary tracking-[0.5em]">Navigation</span>
                   <div className="flex flex-col gap-4 text-xs text-white/50 tracking-widest">
