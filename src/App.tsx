@@ -703,7 +703,7 @@ const Navbar = ({ activePage, setActivePage, isArchiveOpen }: { activePage: Page
           </div>
 
           <div className={`flex items-center gap-8 transition-opacity ${isArchiveOpen ? 'opacity-20 pointer-events-none' : ''}`}>
-            {(['HOME', 'VISIT', 'EXHIBITIONS', 'EVENTS', 'COLLECTIONS', 'ABOUT'] as Page[]).map(p => (
+            {(['HOME', 'VISIT', 'EXHIBITIONS', 'EVENTS', 'COLLECTIONS', 'LEARN', 'SUPPORT', 'ABOUT'] as Page[]).map(p => (
               <button
                 key={p}
                 onClick={() => setActivePage(p)}
@@ -991,7 +991,10 @@ const Home = ({ setActivePage }: { setActivePage: (p: Page) => void }) => (
            animate={{ opacity: 1, scale: 1 }}
            transition={{ delay: 0.4 }}
         >
-          <button className="btn-primary px-16 text-base shadow-2xl">
+          <button
+            onClick={() => setActivePage('TICKETS')}
+            className="btn-primary px-16 text-base shadow-2xl"
+          >
             Reserve Access
           </button>
         </motion.div>
@@ -1232,7 +1235,7 @@ const Visit = () => {
   );
 };
 
-const Support = () => (
+const Support = ({ setActivePage }: { setActivePage: (p: Page) => void }) => (
     <div className="space-y-12">
         <PageHeader title="SUPPORT" subtitle="Help us bridge the gap between memory and survival" />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
@@ -1246,14 +1249,14 @@ const Support = () => (
                         <h3 className="text-xl font-serif text-secondary tracking-widest">{col.title}</h3>
                     </div>
                     <p className="text-sm text-neutral leading-relaxed mb-12 flex-1">{col.desc}</p>
-                    <button className="btn-primary w-full">Apply for Patronage</button>
+                    <button onClick={() => setActivePage('TICKETS')} className="btn-primary w-full">Apply for Patronage</button>
                 </div>
             ))}
         </div>
     </div>
 );
 
-const Learn = () => (
+const Learn = ({ setActivePage }: { setActivePage: (p: Page) => void }) => (
     <div className="space-y-12">
         <PageHeader title="LEARN" subtitle="Education for the preservation of humanity" />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
@@ -1276,7 +1279,7 @@ const Learn = () => (
                       </li>
                    </ul>
                 </div>
-                <button className="btn-secondary flex items-center gap-2 group">
+                <button onClick={() => setActivePage('TICKETS')} className="btn-secondary flex items-center gap-2 group">
                    Academic Registration <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                 </button>
             </div>
@@ -1317,7 +1320,7 @@ const About = () => (
     </div>
 );
 
-const Exhibitions = () => (
+const Exhibitions = ({ setActivePage }: { setActivePage: (p: Page) => void }) => (
   <div className="space-y-12">
     <PageHeader title="EXHIBITIONS" subtitle="Current showcases of curated historical intrigue" />
     <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
@@ -1334,7 +1337,7 @@ const Exhibitions = () => (
              <h4 className="text-3xl font-serif text-secondary">{ex.title}</h4>
              <p className="text-neutral leading-relaxed text-sm">{ex.desc}</p>
              <p className="text-secondary/80 leading-relaxed text-sm">{ex.details}</p>
-             <button className="btn-outlined w-full group-hover:bg-primary group-hover:text-white transition-all">Secure Entry Passes</button>
+             <button onClick={() => setActivePage('TICKETS')} className="btn-outlined w-full group-hover:bg-primary group-hover:text-white transition-all">Secure Entry Passes</button>
           </div>
         </div>
       ))}
@@ -1342,7 +1345,7 @@ const Exhibitions = () => (
   </div>
 );
 
-const Events = () => (
+const Events = ({ setActivePage }: { setActivePage: (p: Page) => void }) => (
   <div className="space-y-12">
     <PageHeader title="EVENTS" subtitle="Current broadcasts from our scholarly network" />
     <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
@@ -1360,14 +1363,18 @@ const Events = () => (
           <h3 className="text-2xl font-serif text-secondary mb-3 group-hover:text-primary transition-colors">{event.title}</h3>
           <p className="text-sm text-neutral leading-relaxed mb-5">{event.desc}</p>
           <p className="text-sm text-secondary/80 leading-relaxed mb-8 flex-1">{event.details}</p>
-          <button className="btn-secondary w-full">Register for Session</button>
+          <button onClick={() => setActivePage('TICKETS')} className="btn-secondary w-full">Register for Session</button>
         </div>
       ))}
     </div>
   </div>
 );
 
-const Tickets = () => (
+const Tickets = () => {
+  // REPLACE THIS WITH YOUR ACCESS KEY FROM WEB3FORMS.COM
+  const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || "YOUR_ACCESS_KEY_HERE";
+
+  return (
   <div className="space-y-14">
     <PageHeader title="TICKETS" subtitle="Reserve your entry to the Legacy Vault" />
     <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 items-start">
@@ -1401,10 +1408,37 @@ const Tickets = () => (
       <section className="bg-white p-10 rounded-[var(--radius-card)] border border-outline-variant/30 shadow-xl">
         <h3 className="text-3xl font-serif text-secondary mb-2">Ticket Request</h3>
         <p className="text-xs label-caps text-neutral opacity-60 mb-8">Select an access path</p>
-        <div className="space-y-5">
+        <form
+          className="space-y-5"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.currentTarget);
+
+            formData.append("access_key", WEB3FORMS_ACCESS_KEY);
+
+            try {
+              const response = await fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                body: formData
+              });
+
+              const data = await response.json();
+
+              if (data.success) {
+                alert("Ticket Request Sent Successfully!");
+                (e.target as HTMLFormElement).reset();
+              } else {
+                alert(data.message || "Something went wrong. Please check your Access Key.");
+              }
+            } catch (error) {
+              console.error("Error submitting form:", error);
+              alert("Server error. Please try again later.");
+            }
+          }}
+        >
           <label className="block space-y-2">
             <span className="label-caps text-[10px] text-neutral font-bold">Visit Type</span>
-            <select className="w-full bg-surface-dim/30 border border-outline-variant/30 rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-all font-sans text-sm">
+            <select name="visit_type" className="w-full bg-surface-dim/30 border border-outline-variant/30 rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-all font-sans text-sm">
               <option>General Admission</option>
               <option>Student Group</option>
               <option>Private Tour</option>
@@ -1412,7 +1446,7 @@ const Tickets = () => (
           </label>
           <label className="block space-y-2">
             <span className="label-caps text-[10px] text-neutral font-bold">Visitors</span>
-            <select className="w-full bg-surface-dim/30 border border-outline-variant/30 rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-all font-sans text-sm">
+            <select name="visitors" className="w-full bg-surface-dim/30 border border-outline-variant/30 rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-all font-sans text-sm">
               <option>1 Visitor</option>
               <option>2 Visitors</option>
               <option>3 Visitors</option>
@@ -1422,14 +1456,15 @@ const Tickets = () => (
           </label>
           <label className="block space-y-2">
             <span className="label-caps text-[10px] text-neutral font-bold">Preferred Date</span>
-            <input type="date" className="w-full bg-surface-dim/30 border border-outline-variant/30 rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-all font-sans text-sm" />
+            <input required name="date" type="date" className="w-full bg-surface-dim/30 border border-outline-variant/30 rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-all font-sans text-sm" />
           </label>
-          <button className="btn-primary w-full py-4 mt-4">CONTINUE RESERVATION</button>
-        </div>
+          <button type="submit" className="btn-primary w-full py-4 mt-4">CONTINUE RESERVATION</button>
+        </form>
       </section>
     </div>
   </div>
-);
+  );
+};
 
 // --- Main App ---
 
@@ -1461,7 +1496,7 @@ export default function App() {
           >
             {activePage === 'HOME' && <Home setActivePage={setActivePage} />}
             {activePage === 'VISIT' && <Visit />}
-            {activePage === 'EXHIBITIONS' && <Exhibitions />}
+            {activePage === 'EXHIBITIONS' && <Exhibitions setActivePage={setActivePage} />}
             {activePage === 'COLLECTIONS' && (
               <div className="space-y-16">
                 <PageHeader title="COLLECTIONS" subtitle="The Archive of Hidden Wonders" />
@@ -1486,10 +1521,10 @@ export default function App() {
                 </div>
               </div>
             )}
-            {activePage === 'EVENTS' && <Events />}
+            {activePage === 'EVENTS' && <Events setActivePage={setActivePage} />}
             {activePage === 'TICKETS' && <Tickets />}
-            {activePage === 'LEARN' && <Learn />}
-            {activePage === 'SUPPORT' && <Support />}
+            {activePage === 'LEARN' && <Learn setActivePage={setActivePage} />}
+            {activePage === 'SUPPORT' && <Support setActivePage={setActivePage} />}
             {activePage === 'ABOUT' && <About />}
           </motion.div>
         </AnimatePresence>
