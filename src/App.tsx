@@ -34,7 +34,7 @@ import inventorImage from './assets/about/inventor.png';
 import socratesImage from './assets/about/socrates.webp';
 
 // --- Types ---
-type Page = 'HOME' | 'VISIT' | 'EXHIBITIONS' | 'COLLECTIONS' | 'EVENTS' | 'LEARN' | 'SUPPORT' | 'ABOUT' | 'TICKETS';
+type Page = 'HOME' | 'VISIT' | 'EXHIBITIONS' | 'COLLECTIONS' | 'EVENTS' | 'SUPPORT' | 'ABOUT' | 'TICKETS';
 
 interface QuizQuestion {
   question: string;
@@ -665,7 +665,7 @@ const Logo = () => (
 
 const Navbar = ({ activePage, setActivePage, isArchiveOpen }: { activePage: Page, setActivePage: (p: Page) => void, isArchiveOpen: boolean }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const navItems: Page[] = ['HOME', 'VISIT', 'EXHIBITIONS', 'EVENTS', 'COLLECTIONS', 'LEARN', 'SUPPORT', 'ABOUT'];
+  const navItems: Page[] = ['HOME', 'VISIT', 'EXHIBITIONS', 'EVENTS', 'COLLECTIONS', 'SUPPORT', 'ABOUT'];
 
   return (
     <nav className="w-full border-b border-outline-variant/30 bg-surface sticky top-0 z-50">
@@ -1311,44 +1311,6 @@ const Support = ({ setActivePage }: { setActivePage: (p: Page) => void }) => (
     </div>
 );
 
-const Learn = ({ setActivePage }: { setActivePage: (p: Page) => void }) => (
-    <div className="space-y-12">
-        <PageHeader title="LEARN" subtitle="Education for the preservation of humanity" />
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            <div className="space-y-12">
-                <div className="museum-module">
-                   <h3 className="text-3xl font-serif mb-6">Scholarly Programs</h3>
-                   <p className="text-neutral mb-8 leading-relaxed">Our curriculum focuses on 'Lost Systems'—the forgotten technologies and social structures that have been omitted from mainstream history. We offer workshops for researchers of all skill levels.</p>
-                   <ul className="space-y-4">
-                      <li className="flex items-center gap-3 text-sm italic font-serif">
-                         <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                         Theoretical Archaeological Extraction
-                      </li>
-                      <li className="flex items-center gap-3 text-sm italic font-serif">
-                         <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                         Chronology of the Pre-Industrial Automatons
-                      </li>
-                      <li className="flex items-center gap-3 text-sm italic font-serif">
-                         <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                         Mathematics of the Babylonian Constellations
-                      </li>
-                   </ul>
-                </div>
-                <button onClick={() => setActivePage('TICKETS')} className="btn-secondary flex items-center gap-2 group">
-                   Academic Registration <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                </button>
-            </div>
-            <div className="rounded-[var(--radius-card)] overflow-hidden border border-outline-variant/30 shadow-2xl relative">
-                <img src="https://images.unsplash.com/photo-1491153059943-412f4b4701d9?q=80&w=2488&auto=format&fit=crop" className="w-full h-full object-cover" alt="Learning center" />
-                <div className="absolute inset-x-0 bottom-0 p-8 bg-gradient-to-t from-black/80 to-transparent text-white">
-                   <p className="label-caps text-xs text-primary mb-2">Restoration Facility 4</p>
-                   <h4 className="text-2xl font-serif">Micro-analysis of Ancient Pigments</h4>
-                </div>
-            </div>
-        </div>
-    </div>
-);
-
 const About = () => (
     <div className="space-y-12">
         <PageHeader title="ABOUT" subtitle="The provenance of our institution" />
@@ -1578,7 +1540,6 @@ export default function App() {
             )}
             {activePage === 'EVENTS' && <Events setActivePage={setActivePage} />}
             {activePage === 'TICKETS' && <Tickets />}
-            {activePage === 'LEARN' && <Learn setActivePage={setActivePage} />}
             {activePage === 'SUPPORT' && <Support setActivePage={setActivePage} />}
             {activePage === 'ABOUT' && <About />}
           </motion.div>
